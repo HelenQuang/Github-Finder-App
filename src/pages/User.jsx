@@ -3,14 +3,16 @@ import { useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import Spinner from "../components/layout/Spinner";
 import GithubContext from "../context/github/GithubContext";
+import RepoList from "../components/repos/RepoList";
 
 function User() {
-  const { getUser, user, loading } = useContext(GithubContext);
+  const { getUser, user, loading, getRepos, repos } = useContext(GithubContext);
 
   const params = useParams();
 
   useEffect(() => {
     getUser(params.login);
+    getRepos(params.login);
   }, []);
 
   if (loading) {
@@ -45,9 +47,9 @@ function User() {
 
         <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 mb-8 md:gap-8">
           <div className="custom-card-image mb-6 md:mb-0">
-            <div className="rounded-lg shadow-xl card image-full">
+            <div className="rounded-lg shadow-xl card-image-full">
               <figure>
-                <img src={avatar_url} alt="" />
+                <img src={avatar_url} alt="Avatar" />
               </figure>
               <div className="card-body justify-end">
                 <h2 className="card-title mb-0">{name}</h2>
@@ -88,7 +90,7 @@ function User() {
               {blog && (
                 <div className="stat">
                   <div className="stat-title text-md">Website</div>
-                  <div className="text-lg stat-value">
+                  <div className="text-lg stat-value hover:underline">
                     <a
                       href={`https://${blog}`}
                       target="_blank"
@@ -102,7 +104,7 @@ function User() {
               {twitter_username && (
                 <div className="stat">
                   <div className="stat-title text-md">Twitter</div>
-                  <div className="text-lg stat-value">
+                  <div className="text-lg stat-value  hover:underline">
                     <a
                       href={`https://twitter.com/${twitter_username}`}
                       target="_blank"
@@ -159,7 +161,7 @@ function User() {
           </div>
         </div>
 
-        {/* <RepoList repos={repos} /> */}
+        <RepoList repos={repos} />
       </div>
     </>
   );

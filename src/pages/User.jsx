@@ -19,7 +19,7 @@ function User() {
     };
 
     getUserData();
-  }, []);
+  }, [dispatch, params.login]);
 
   if (loading) {
     return <Spinner />;
